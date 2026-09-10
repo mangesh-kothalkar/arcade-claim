@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Redirecting to Arcade Credit Claim...</title>
+  <script>
+    const GIST_URL = "https://gist.githubusercontent.com/mangesh-kothalkar/37f25cbb95f3ff6b57c774c519498ab6/raw/event.txt";
+    const FALLBACK_SLUG = "google-skills-arcade-test-2";
+
+    async function routeToDailyEvent() {
+      try {
+        const res = await fetch(`${GIST_URL}?t=${Date.now()}`);
+        if (!res.ok) throw new Error("Gist fetch failed");
+        const slug = (await res.text()).trim();
+        
+        if (slug && slug.length > 0) {
+          window.location.replace(`https://me.developers.google.com/benefits/claim/${slug}`);
+        } else {
+          window.location.replace(`https://me.developers.google.com/benefits/claim/${FALLBACK_SLUG}`);
+        }
+      } catch (err) {
+        window.location.replace(`https://me.developers.google.com/benefits/claim/${FALLBACK_SLUG}`);
+      }
+    }
+
+    routeToDailyEvent();
+  </script>
+</head>
+<body style="font-family: sans-serif; text-align: center; margin-top: 60px;">
+  <p>Connecting to Google Cloud benefits...</p>
+</body>
+</html>
